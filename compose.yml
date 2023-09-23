@@ -1,0 +1,24 @@
+version: '3'
+services:
+  front-app:
+    build:
+      context: ./front-app
+    ports:
+      - "9000:3000"
+    working_dir: /home/node/app
+    volumes:
+      - ./front-app/next-app:/home/node/app
+      - node_modules:/home/node/app/node_modules
+    command: sh -c "npm run dev"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  nginx:
+    build:
+      ./nginx
+    ports:
+    - "5000:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  node_modules:
